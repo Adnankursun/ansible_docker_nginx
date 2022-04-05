@@ -1,0 +1,13 @@
+[Unit]
+Description=nginx container
+After=docker.service
+Wants=network-online.target docker.socket
+Requires=docker.socket
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a nginx 
+ExecStop=/usr/bin/docker stop -t 10 nginx
+
+[Install]
+WantedBy=multi-user.target

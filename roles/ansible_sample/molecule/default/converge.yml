@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:
+    - name: "Include ansible-sample"
+      include_role:
+        name: "ansible_sample"

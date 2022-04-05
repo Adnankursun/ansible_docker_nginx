@@ -1,0 +1,19 @@
+---
+# defaults file for sample_role
+nginx_container_name: 'nginx'
+nginx_docker_tag: '1.21.6'
+
+docker_py_deps:
+      - python3-devel
+      - python3-pip
+      - openssl-devel
+      - libffi-devel
+      - libselinux-python3
+      - yum-utils
+
+docker_package:
+     - docker-ce
+     - docker-ce-cli 
+     - containerd.io
+
+

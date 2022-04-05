@@ -1,0 +1,17 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: molecule-default
+    image: molecule-default
+    dockerfile: ./Dockerfile
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    command: /sbin/init
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

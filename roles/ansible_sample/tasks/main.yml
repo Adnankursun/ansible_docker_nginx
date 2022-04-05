@@ -1,0 +1,60 @@
+---
+# tasks file for sample_role 
+- name: install EPEL release package for centos
+  yum:
+    name: "epel-release"
+    state: present
+
+- name: Install system requirements for docker-py
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ docker_py_deps }}"
+
+- name: Add centos docker repository
+  shell: yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+ 
+
+- name: install docker-py requirement to manage containers
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+      - docker-py
+
+- name: install docker engine
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ docker_package }}"
+  
+- name: start docker
+  service:
+    name: docker
+    state: started
+
+- name: 'Start the nginx docker container'
+  become: yes
+  docker_container:
+    image: "nginx:{{ nginx_docker_tag }}"
+    name: "{{ nginx_container_name }}"
+    state: started
+    ports:
+      - "80:80"
+
+- name: wait for tcp 80 to be up
+  wait_for: 
+    host: localhost
+    port: 80
+
+- name: copy systemctl nginx file
+  copy:
+    src: docker.nginx.service
+    dest: /etc/systemd/system/docker.nginx.service
+
+- name: start docker
+  service:
+    name: docker.nginx.service
+    state: started
+    enabled: yes
+
