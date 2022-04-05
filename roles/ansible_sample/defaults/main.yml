@@ -3,7 +3,7 @@
 nginx_container_name: 'nginx'
 nginx_docker_tag: '1.21.6'
 
-#docker py module depandencies 
+#docker py module dependancies 
 docker_py_deps:
       - python3-devel
       - python3-pip
