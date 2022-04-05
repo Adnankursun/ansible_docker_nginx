@@ -27,11 +27,7 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ docker_package }}"
-  
-- name: start docker
-  service:
-    name: docker
-    state: started
+  notify: start docker
 
 - name: 'Start the nginx docker container'
   become: yes
